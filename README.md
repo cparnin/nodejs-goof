@@ -216,3 +216,4 @@ When the wizard is done, restart the application and run the exploits again to c
 Testing AI Scanner v3
 Test trigger for updated workflow
 Testing improved PR comment filtering - only critical/high + secrets
+Testing path fix for PR comments
