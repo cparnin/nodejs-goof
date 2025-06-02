@@ -215,3 +215,4 @@ When the wizard is done, restart the application and run the exploits again to c
 # 🚀 AI-Powered Security Scanner Test
 Testing AI Scanner v3
 Test trigger for updated workflow
+Testing improved PR comment filtering - only critical/high + secrets
