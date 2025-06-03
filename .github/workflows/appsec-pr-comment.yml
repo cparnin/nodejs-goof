@@ -72,7 +72,23 @@ jobs:
           echo "=== All Files ==="
           ls -la
           echo "=== Scanner Outputs ==="
+          if [ -d scanner/outputs ]; then
+            echo "Found scanner/outputs directory"
+            ls -la scanner/outputs/
+            echo "=== Output file contents ==="
+            for file in scanner/outputs/*; do
+              if [ -f "$file" ]; then
+                echo "--- $file ---"
+                head -20 "$file"
+                echo ""
+              fi
+            done
+          else
+            echo "No scanner/outputs directory found"
+          fi
+          echo "=== Root Outputs ==="
           if [ -d outputs ]; then
+            echo "Found root outputs directory"
             ls -la outputs/
             echo "=== Output file contents ==="
             for file in outputs/*; do
@@ -83,18 +99,24 @@ jobs:
               fi
             done
           else
-            echo "No outputs directory found"
+            echo "No root outputs directory found"
           fi
 
       - name: Prepare PR Comment
         run: |
+          # Create outputs directory and copy scanner results
           mkdir -p outputs
           if [ -f outputs/pr-findings.txt ] && [ -s outputs/pr-findings.txt ]; then
-            echo "Using existing pr-findings.txt"
+            echo "Using existing pr-findings.txt from root outputs"
+            echo "File size: $(wc -c < outputs/pr-findings.txt) bytes"
+            echo "Line count: $(wc -l < outputs/pr-findings.txt) lines"
+          elif [ -f scanner/outputs/pr-findings.txt ] && [ -s scanner/outputs/pr-findings.txt ]; then
+            echo "Using scanner pr-findings.txt (legacy path)"
+            cp scanner/outputs/pr-findings.txt outputs/
             echo "File size: $(wc -c < outputs/pr-findings.txt) bytes"
             echo "Line count: $(wc -l < outputs/pr-findings.txt) lines"
           else
-            echo "Creating fallback pr-findings.txt"
+            echo "Creating fallback pr-findings.txt (scanner output not found)"
             cat > outputs/pr-findings.txt << 'EOFMARKER'
           ## Security Scan Results
           
