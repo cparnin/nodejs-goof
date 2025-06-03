@@ -20,7 +20,7 @@ jobs:
       - name: Checkout Scanner Repository  
         uses: actions/checkout@v4
         with:
-          repository: cparnin/appsec_scanner
+          repository: imaginexconsulting/appsec_scanner
           path: scanner
 
       - name: Install Python & Dependencies
