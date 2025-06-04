@@ -219,3 +219,4 @@ Testing improved PR comment filtering - only critical/high + secrets
 Testing path fix for PR comments
 Debug: testing scanner output path
 # Testing AppSec scanner
+# Testing AppSec Scanner Tue Jun  3 21:54:46 EDT 2025
