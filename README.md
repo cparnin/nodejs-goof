@@ -212,3 +212,11 @@ snyk wizard
 
 In this application, the default `snyk wizard` answers will fix all the issues.
 When the wizard is done, restart the application and run the exploits again to confirm they are fixed.
+# 🚀 AI-Powered Security Scanner Test
+Testing AI Scanner v3
+Test trigger for updated workflow
+Testing improved PR comment filtering - only critical/high + secrets
+Testing path fix for PR comments
+Debug: testing scanner output path
+# Testing AppSec scanner
+# Testing AppSec Scanner Tue Jun  3 21:54:46 EDT 2025
