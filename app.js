@@ -39,7 +39,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(methodOverride());
-app.use(session({ secret: 'keyboard cat', name: 'connect.sid', cookie: { path: '/', domain: 'yourdomain.com', expires: new Date(Date.now() + 24 * 60 * 60 * 1000), httpOnly: true, secure: true } }))
+app.use(session({ secret: process.env.SESSION_SECRET, name: 'connect.sid', cookie: { path: '/', domain: 'yourdomain.com', expires: new Date(Date.now() + 24 * 60 * 60 * 1000), httpOnly: true, secure: true } }))
 secret: process.env.SESSION_SECRET,
   name: 'connect.sid',
   cookie: { path: '/' }
