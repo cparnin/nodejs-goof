@@ -20,7 +20,7 @@ jobs:
       - name: Checkout Scanner Repository  
         uses: actions/checkout@v4
         with:
-          repository: cparnin/appsec_scanner
+          repository: imaginexconsulting/appsec_scanner
           path: scanner
 
       - name: Install Python & Dependencies
@@ -61,7 +61,45 @@ jobs:
           cd scanner/src
           mkdir -p ../outputs/raw
           cp ../../trivy-results.json ../outputs/raw/
-          python cli.py --repo ../../target-repo --scan all --output ../outputs
+          # Create a simple CI script since main CLI is interactive-only
+          cat > ci_scan.py << 'EOF'
+          import sys
+          sys.path.append('.')
+          from main import validate_repo_path, generate_pr_comment
+          from scanners.semgrep import run_semgrep
+          from scanners.gitleaks import run_gitleaks
+          from scanners.sca import run_sca_scan
+          from pathlib import Path
+          
+          # Run all scanners non-interactively
+          repo_path = validate_repo_path("../../target-repo")
+          output_dir = Path("../outputs").resolve()
+          output_dir.mkdir(parents=True, exist_ok=True)
+          
+          all_findings = []
+          
+          # Run scanners
+          semgrep_findings = run_semgrep(repo_path, str(output_dir / "raw"))
+          for finding in semgrep_findings:
+              finding['tool'] = 'semgrep'
+          all_findings.extend(semgrep_findings)
+          
+          gitleaks_findings = run_gitleaks(repo_path, str(output_dir / "raw"))
+          for finding in gitleaks_findings:
+              finding['tool'] = 'gitleaks'
+          all_findings.extend(gitleaks_findings)
+          
+          sca_findings = run_sca_scan(repo_path, str(output_dir / "raw"))
+          for finding in sca_findings:
+              finding['tool'] = 'sca'
+          all_findings.extend(sca_findings)
+          
+          # Generate PR comment (no AI suggestions in CI)
+          generate_pr_comment(all_findings, [], str(output_dir), repo_path)
+          print(f"Found {len(all_findings)} security findings")
+          EOF
+          
+          python ci_scan.py
         continue-on-error: true
 
       - name: Debug Scanner Results
