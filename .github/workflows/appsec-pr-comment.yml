@@ -68,7 +68,7 @@ jobs:
           from main import validate_repo_path, generate_pr_comment
           from scanners.semgrep import run_semgrep
           from scanners.gitleaks import run_gitleaks
-          from scanners.sca import run_sca_scan
+          from scanners.trivy import run_trivy_scan
           from pathlib import Path
           
           # Run all scanners non-interactively
@@ -89,10 +89,10 @@ jobs:
               finding['tool'] = 'gitleaks'
           all_findings.extend(gitleaks_findings)
           
-          sca_findings = run_sca_scan(repo_path, str(output_dir / "raw"))
-          for finding in sca_findings:
-              finding['tool'] = 'sca'
-          all_findings.extend(sca_findings)
+          trivy_findings = run_trivy_scan(repo_path, str(output_dir / "raw"))
+          for finding in trivy_findings:
+              finding['tool'] = 'trivy'
+          all_findings.extend(trivy_findings)
           
           # Generate PR comment (no AI suggestions in CI)
           generate_pr_comment(all_findings, [], str(output_dir), repo_path)
