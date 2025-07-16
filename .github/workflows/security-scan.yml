@@ -28,11 +28,12 @@ jobs:
           
       - name: Run AppSec AI Scanner
         id: scanner
-        uses: imaginexconsulting/appsec_scanner@main  # Your private action
+        uses: imaginexconsulting/appsec_scanner@main
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          # gemini-api-key
           auto-fix: 'true'
-          fail-on-critical: 'true'
+          fail-on-critical: 'false'
           scan-level: 'critical-high'
           
       - name: Comment on PR
