@@ -216,7 +216,7 @@ exports.edit = function (req, res, next) {
 };
 
 exports.update = function (req, res, next) {
-Todo.findById(sanitize(req.params.id), function (err, todo) {
+Todo.findById(mongoose.Types.ObjectId(req.params.id), function (err, todo) {
 
     todo.content = req.body.content;
     todo.updated_at = Date.now();
