@@ -39,7 +39,11 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(methodOverride());
-app.use(session({
+app.use(session({ secret: 'keyboard cat', name: 'connect.sid', cookie: { path: '/', domain: 'yourdomain.com', expires: new Date(Date.now() + 3600000), httpOnly: true, secure: true } }))
+secret: process.env.SESSION_SECRET,
+   name: 'connect.sid',
+   cookie: { path: '/', domain: 'yourdomain.com' }
+}))
   secret: 'keyboard cat',
   name: 'connect.sid',
   cookie: { path: '/' }
@@ -79,7 +83,7 @@ app.locals.marked = marked;
 if (app.get('env') == 'development') {
   app.use(errorHandler());
 }
-
+https.createServer(app).listen(app.get('port'), function () {
 var token = 'SECRET_TOKEN_f8ed84e8f41e4146403dd4a6bbcea5e418d23a9';
 console.log('token: ' + token);
 
