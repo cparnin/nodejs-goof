@@ -1,7 +1,8 @@
 name: Security Scan
 
 # Copy this file to: .github/workflows/security-scan.yml
-# Replace "imaginexconsulting/appsec_scanner" with your actual repo reference
+# Drop-in workflow for client repositories - no customization needed
+# Requires: OPENAI_API_KEY secret in repository settings
 
 on:
   pull_request:
@@ -11,7 +12,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pull-requests: write
   security-events: write
 
@@ -29,13 +30,15 @@ jobs:
       - name: Run AppSec AI Scanner
         id: scanner
         uses: imaginexconsulting/appsec_scanner@main
+        env:
+          GH_TOKEN: ${{ github.token }}
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           # claude-api-key: ${{ secrets.CLAUDE_API_KEY }}
           auto-fix: 'true'
           # auto-fix-mode: '3'  # Optional: 1=SAST+secrets, 2=dependencies, 3=both, 4=skip
           fail-on-critical: 'false'
-          scan-level: 'critical-high'
+          scan-level: 'all'
           
       - name: Comment on PR
         if: github.event_name == 'pull_request' && always()
