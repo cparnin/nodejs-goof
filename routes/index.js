@@ -36,7 +36,7 @@ exports.index = function (req, res, next) {
 
 exports.loginHandler = function (req, res, next) {
   if (validator.isEmail(req.body.username)) {
-    User.find({ username: req.body.username, password: req.body.password }, function (err, users) {
+User.find({ username: validator.escape(req.body.username), password: validator.escape(req.body.password) }, function (err, users) {
       if (users.length > 0) {
         const redirectPage = req.body.redirectPage
         const session = req.session
@@ -158,7 +158,7 @@ exports.create = function (req, res, next) {
     var url = item.match(imgRegex)[1];
     console.log('found img: ' + url);
 
-    exec('identify ' + url, function (err, stdout, stderr) {
+execFile('identify', [url], function (err, stdout, stderr) {
       console.log(err);
       if (err !== null) {
         console.log('Error (' + err + '):' + stderr);
@@ -188,7 +188,7 @@ exports.create = function (req, res, next) {
 };
 
 exports.destroy = function (req, res, next) {
-  Todo.findById(req.params.id, function (err, todo) {
+Todo.findById(mongoose.Types.ObjectId(req.params.id), function (err, todo) {
 
     try {
       todo.remove(function (err, todo) {
@@ -216,7 +216,7 @@ exports.edit = function (req, res, next) {
 };
 
 exports.update = function (req, res, next) {
-  Todo.findById(req.params.id, function (err, todo) {
+const id = require('mongoose').Types.ObjectId.isValid(req.params.id) ? req.params.id : null; if (!id) return res.status(400).send('Invalid ID'); Todo.findById(id, function (err, todo) {
 
     todo.content = req.body.content;
     todo.updated_at = Date.now();
