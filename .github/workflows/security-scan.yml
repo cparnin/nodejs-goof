@@ -32,6 +32,7 @@ jobs:
         uses: imaginexconsulting/appsec_scanner@v1.3.0
         env:
           GH_TOKEN: ${{ github.token }}
+          APPSEC_AUTO_FIX_DELAY: '2'  # Optional: Add 2-second delay between fixes to prevent API rate limiting
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           # claude-api-key: ${{ secrets.CLAUDE_API_KEY }}
