@@ -215,3 +215,4 @@ When the wizard is done, restart the application and run the exploits again to c
 # Test SAST fix Tue Jul 29 09:54:30 EDT 2025
 # Debug SAST fix failure Tue Jul 29 10:04:09 EDT 2025
 # Final SAST debug Tue Jul 29 10:14:20 EDT 2025
+# Test revert to working state Tue Jul 29 10:20:37 EDT 2025
