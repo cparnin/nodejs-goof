@@ -33,8 +33,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           APPSEC_AUTO_FIX_DELAY: '2'  # Optional: Add 2-second delay between fixes to prevent API rate limiting
-          #APPSEC_DEBUG: 'true'
-          #APPSEC_LOG_LEVEL: 'DEBUG'
+          APPSEC_DEBUG: 'true'        # Enable to see Semgrep version and debug info
+          APPSEC_LOG_LEVEL: 'DEBUG'   # Show detailed debugging information
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           # claude-api-key: ${{ secrets.CLAUDE_API_KEY }}
