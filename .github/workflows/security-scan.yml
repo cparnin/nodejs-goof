@@ -2,7 +2,10 @@ name: Security Scan
 
 # Copy this file to: .github/workflows/security-scan.yml
 # Drop-in workflow for client repositories - no customization needed
-# Requires: OPENAI_API_KEY secret in repository settings
+# Requires AWS secrets for Bedrock (recommended) or OpenAI API key (legacy):
+#   - AWS_ACCESS_KEY_ID
+#   - AWS_SECRET_ACCESS_KEY
+#   - AWS_REGION (optional, defaults to us-east-1)
 
 on:
   pull_request:
@@ -32,12 +35,21 @@ jobs:
         uses: imaginexconsulting/appsec_scanner@main  # Always uses latest - no version management needed
         env:
           GH_TOKEN: ${{ github.token }}
-          APPSEC_AUTO_FIX_DELAY: '2'  # Optional: Add 2-second delay between fixes to prevent API rate limiting
-          APPSEC_DEBUG: 'true'        # Enable to see Semgrep version and debug info
-          APPSEC_LOG_LEVEL: 'DEBUG'   # Show detailed debugging information
+          #APPSEC_AUTO_FIX_DELAY: '2'  # Optional: Add 2-second delay between fixes to prevent API rate limiting
+          #APPSEC_DEBUG: 'true'        # Enable to see Semgrep version and debug info
+          #APPSEC_LOG_LEVEL: 'DEBUG'   # Show detailed debugging information
         with:
-          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          # AWS Bedrock Configuration (RECOMMENDED for client data security)
+          ai-provider: 'aws_bedrock'
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          
+          # Legacy AI providers (uncomment to use instead of AWS Bedrock)
+          # ai-provider: 'openai'
+          # openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           # claude-api-key: ${{ secrets.CLAUDE_API_KEY }}
+          
           auto-fix: 'true'
           # auto-fix-mode: '3'  # Optional: 1=SAST+secrets, 2=dependencies, 3=both, 4=skip
           fail-on-critical: 'false'
