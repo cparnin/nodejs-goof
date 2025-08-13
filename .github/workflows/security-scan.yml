@@ -32,7 +32,7 @@ jobs:
           
       - name: Run AppSec AI Scanner
         id: scanner
-        uses: imaginexconsulting/appsec_scanner@main  # Always uses latest - no version management needed
+        uses: imaginexconsulting/IX-Guard@main  # Always uses latest - no version management needed
         env:
           GH_TOKEN: ${{ github.token }}
           #APPSEC_AUTO_FIX_DELAY: '2'  # Optional: Add 2-second delay between fixes to prevent API rate limiting
