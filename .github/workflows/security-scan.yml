@@ -55,6 +55,7 @@ jobs:
           # auto-fix-mode: '3'  # Optional: 1=SAST+secrets, 2=dependencies, 3=both, 4=skip
           fail-on-critical: 'false'
           scan-level: 'critical-high'
+        timeout-minutes: 8
           
       - name: Comment on PR
         if: github.event_name == 'pull_request' && always()
