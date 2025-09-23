@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Python
 __pycache__/
 *.py[cod]
@@ -24,6 +25,13 @@ wheels/
 .pytest_cache/
 .coverage
 .hypothesis/
+=======
+.env
+
+.DS_Store
+node_modules
+*.sock
+>>>>>>> 9fbb6ea (testing)
 
 # IDE
 .vscode/
