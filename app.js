@@ -25,7 +25,7 @@ var dustHelpers = require('dustjs-helpers');
 var cons = require('consolidate');
 const hbs = require('hbs')
 
-var app = express();
+var app = express(); var csrf = require('csurf'); app.use(csrf());
 var routes = require('./routes');
 var routesUsers = require('./routes/users.js')
 
@@ -40,7 +40,7 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(methodOverride());
 app.use(session({
-  secret: 'keyboard cat',
+secret: process.env.SESSION_SECRET || 'fallback-secret-change-in-production',
   name: 'connect.sid',
   cookie: { path: '/' }
 }))
@@ -83,6 +83,6 @@ if (app.get('env') == 'development') {
 var token = 'SECRET_TOKEN_f8ed84e8f41e4146403dd4a6bbcea5e418d23a9';
 console.log('token: ' + token);
 
-http.createServer(app).listen(app.get('port'), function () {
+https.createServer(app).listen(app.get('port'), function () {
   console.log('Express server listening on port ' + app.get('port'));
 });
