@@ -5,7 +5,8 @@ name: Security Scan
 # Requires AWS secrets for Bedrock (recommended) or OpenAI API key (legacy):
 #   - AWS_ACCESS_KEY_ID
 #   - AWS_SECRET_ACCESS_KEY
-#   - AWS_REGION (optional, defaults to us-east-1)
+#   - AWS_REGION (REQUIRED if using inference profiles in non-us-east-1 regions)
+#   - INFERENCE_PROFILE_ID (REQUIRED for Claude Sonnet 4+)
 
 on:
   pull_request:
