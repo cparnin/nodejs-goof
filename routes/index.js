@@ -36,7 +36,7 @@ exports.index = function (req, res, next) {
 
 exports.loginHandler = function (req, res, next) {
   if (validator.isEmail(req.body.username)) {
-    User.find({ username: req.body.username, password: req.body.password }, function (err, users) {
+    User.find({ username: { $eq: req.body.username }, password: { $eq: req.body.password } }, function (err, users) {
       if (users.length > 0) {
         const redirectPage = req.body.redirectPage
         const session = req.session
@@ -158,7 +158,7 @@ exports.create = function (req, res, next) {
     var url = item.match(imgRegex)[1];
     console.log('found img: ' + url);
 
-    exec('identify ' + url, function (err, stdout, stderr) {
+    require('child_process').execFile('identify', [url], function (err, stdout, stderr) {
       console.log(err);
       if (err !== null) {
         console.log('Error (' + err + '):' + stderr);
